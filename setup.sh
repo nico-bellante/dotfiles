@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 cd "$(dirname "${BASH_SOURCE}")";
 
 git pull origin master;
@@ -6,7 +6,7 @@ git pull origin master;
 function doIt() {
 	rsync --exclude ".git/" \
 		--exclude ".DS_Store" \
-		--exclude "bootstrap.sh" \
+		--exclude "setup.sh" \
 		-avh --no-perms . ~;
 	source ~/.bash_profile;
 }
