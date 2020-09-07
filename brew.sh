@@ -54,6 +54,7 @@ brew install postgis
 brew install redis
 brew install watchman
 brew install zlib
+brew install neovim
 
 # Remove outdated versions from the cellar.
 brew cleanup
