@@ -1,3 +1,9 @@
+set nocompatible
+filetype plugin on
+syntax on
+
+
+
 " ensure the plug in town
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -7,15 +13,18 @@ endif
 
 call plug#begin("~/.vim/plugged") " where the plugs will be dled
   Plug 'kaicataldo/material.vim' " theme
+  Plug 'gosukiwi/vim-atom-dark'
   
   " functionality 
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-sensible'
+  Plug 'tpope/vim-fugitive'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
   Plug 'preservim/nerdtree'
   Plug 'preservim/nerdcommenter'
   Plug 'vim-scripts/vim-gitgutter'
+  Plug 'vimwiki/vimwiki'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'leafgarland/typescript-vim'
   Plug 'peitalin/vim-jsx-typescript'
@@ -175,6 +184,8 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 
+nnoremap <leader>t :r! date "+\%Y-\%m-\%d \%H:\%M:\%S"<CR>
+
 " theme config
 let g:rainbow_active = 1
 
@@ -182,14 +193,16 @@ if (has("termguicolors"))
  set termguicolors
 endif
 syntax enable
-colorscheme material
+colorscheme atom-dark
 
 " nerdtree config
-nnoremap <leader>/ :NERDTreeVCS<CR>
+nnoremap <leader>] :NERDTreeVCS<CR>
+nmap <leader>[ :NERDTreeFind<CR>
 let g:NERDTreeWinPos = "right"
 
 " fzf config
 nnoremap <leader><leader> :GFiles<CR>
+nnoremap <leader><leader>f :Ag<CR>
 nnoremap <leader><leader>p :Files<CR>
 
 
@@ -205,9 +218,20 @@ set so=999 " this makes it so that the line you are currently on is always in th
 
 set cmdheight=2 " give more space for displaying messages.
 
-let g:prettier#autoformat = 0
-autocmd BufWritePre *.js,*.json,*.css,*.scss,*.less,*.graphql PrettierAsync
+let g:prettier#autoformat = 1 
+autocmd BufWritePre *.ts,*.tsx,*.js,*.json,*.css,*.scss,*.less,*.graphql PrettierAsync
 
 " friend-zone config 
 set updatetime=300 " supposed default is 4000ms!
 
+
+nnoremap <Leader>v :e $MYVIMRC<cr>
+“ Reloads vimrc after saving but keep cursor position
+if !exists(‘*ReloadVimrc’)
+   fun! ReloadVimrc()
+       let save_cursor = getcurpos()
+       source $MYVIMRC
+       call setpos(‘.’, save_cursor)
+   endfun
+endif
+autocmd! BufWritePost $MYVIMRC call ReloadVimrc()

@@ -38,6 +38,7 @@ brew install woff2
 
 # Install other useful binaries.
 brew install ack
+brew install fzf
 brew install git
 brew install lua
 
@@ -55,6 +56,6 @@ brew install redis
 brew install watchman
 brew install zlib
 brew install neovim
-
+brew install the_silver_searcher
 # Remove outdated versions from the cellar.
 brew cleanup
