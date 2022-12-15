@@ -3,28 +3,38 @@ local lsp = require("lsp-zero")
 lsp.preset("recommended")
 
 lsp.ensure_installed({
-  'tsserver',
-  'eslint',
-  'sumneko_lua',
-  'rust_analyzer',
-  'pyright',
+  "tsserver",
+  "eslint",
+  "sumneko_lua",
+  "rust_analyzer",
+  "pyright",
 })
 
-local cmp = require('cmp')
+local cmp = require("cmp")
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
 local cmp_mappings = lsp.defaults.cmp_mappings({
-  ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-  ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-  ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+  ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
+  ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
+  ["<C-y>"] = cmp.mapping.confirm({ select = true }),
   ["<C-Space>"] = cmp.mapping.complete(),
+  ["<Tab>"] = cmp.mapping(function(fallback)
+    local copilot_keys = vim.fn["copilot#Accept"]()
+    if cmp.visible() then
+      cmp.select_next_item()
+    elseif copilot_keys ~= "" and type(copilot_keys) == "string" then
+      vim.fn.feedkeys(copilot_keys, "i", true)
+    else
+      fallback()
+    end
+  end, { "i", "s" }),
 })
 
 lsp.set_preferences({
-  sign_icons = {}
+  sign_icons = {},
 })
 
 lsp.setup_nvim_cmp({
-  mapping = cmp_mappings
+  mapping = cmp_mappings,
 })
 
 lsp.on_attach(function(client, bufnr)
@@ -42,13 +52,11 @@ lsp.on_attach(function(client, bufnr)
   vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 end)
 
-local disable_formatting_for = { 'tsserver', 'eslint', 'sumneko_lua' }
+local disable_formatting_for = { "tsserver", "eslint", "sumneko_lua" }
 
 for _, ls in ipairs(disable_formatting_for) do
   lsp.configure(ls, {
-    on_attach = function(client, bufnr)
-      client.server_capabilities.document_formatting = false
-    end
+    on_attach = function(client, bufnr) client.server_capabilities.document_formatting = false end,
   })
 end
 
