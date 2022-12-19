@@ -16,9 +16,7 @@ local packer_bootstrap = ensure_packer()
 require("packer").init({
   compile_path = vim.fn.stdpath("data") .. "/site/plugin/packer_compiled.lua",
   display = {
-    open_fn = function()
-      return require("packer.util").float({ border = "solid" })
-    end,
+    open_fn = function() return require("packer.util").float({ border = "solid" }) end,
   },
 })
 
@@ -32,11 +30,10 @@ use("nvim-lua/plenary.nvim")
 
 use({
   "jose-elias-alvarez/null-ls.nvim",
-  config = function()
-    require("user.plugins.null-ls")
-  end,
+  config = function() require("user.plugins.null-ls") end,
 })
 
+--[[
 use({
   "VonHeikemen/lsp-zero.nvim",
   requires = {
@@ -57,17 +54,14 @@ use({
     { "L3MON4D3/LuaSnip" },
     { "rafamadriz/friendly-snippets" },
   },
-  config = function()
-    require("user.plugins.lsp-zero")
-  end,
-})
+  config = function() require("user.plugins.lsp-zero") end,
+})]]
+--
 
 use({
   "kyazdani42/nvim-tree.lua",
   requires = "kyazdani42/nvim-web-devicons",
-  config = function()
-    require("user.plugins.nvim-tree")
-  end,
+  config = function() require("user.plugins.nvim-tree") end,
 })
 
 use({
@@ -78,9 +72,7 @@ use({
     { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
     { "nvim-telescope/telescope-live-grep-args.nvim" },
   },
-  config = function()
-    require("user.plugins.telescope")
-  end,
+  config = function() require("user.plugins.telescope") end,
 })
 
 use({
@@ -97,9 +89,7 @@ use({
     "nvim-treesitter/nvim-treesitter-textobjects",
     "JoosepAlviste/nvim-ts-context-commentstring",
   },
-  config = function()
-    require("user.plugins.treesitter")
-  end,
+  config = function() require("user.plugins.treesitter") end,
 })
 
 use({
@@ -118,16 +108,12 @@ use({
 
 use({
   "folke/tokyonight.nvim",
-  config = function()
-    vim.cmd("colorscheme tokyonight-night")
-  end,
+  config = function() vim.cmd("colorscheme tokyonight-night") end,
 })
 
 use({
   "github/copilot.vim",
-  config = function()
-    require("user.plugins.copilot")
-  end,
+  config = function() require("user.plugins.copilot") end,
 })
 
 -- extended editor functionality
@@ -137,15 +123,11 @@ use({ "mhinz/vim-grepper", cmd = "GrepperRg" })
 use({
   "nvim-lualine/lualine.nvim",
   requires = { "kyazdani42/nvim-web-devicons", opt = true },
-  config = function()
-    require("lualine").setup({ options = { theme = "tokyonight" } })
-  end,
+  config = function() require("lualine").setup({ options = { theme = "tokyonight" } }) end,
 })
 
 -- Automatically install plugins on first run
-if packer_bootstrap then
-  require("packer").sync()
-end
+if packer_bootstrap then require("packer").sync() end
 
 -- Automatically regenerate compiled loader file on save
 vim.cmd([[
