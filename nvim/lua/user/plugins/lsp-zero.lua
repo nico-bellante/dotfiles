@@ -16,8 +16,8 @@ local cmp_mappings = lsp.defaults.cmp_mappings({
   ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
   ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
   ["<C-y>"] = cmp.mapping.confirm({ select = true }),
-  ["<C-Space>"] = cmp.mapping.complete(),
-  ["<Tab>"] = cmp.mapping(function(fallback)
+  ["<C-Space>"] = cmp.mapping.complete({ reason = cmp.ContextReason.Auto }),
+  --[[["<Tab>"] = cmp.mapping(function(fallback)
     local copilot_keys = vim.fn["copilot#Accept"]()
     if cmp.visible() then
       cmp.select_next_item()
@@ -26,7 +26,8 @@ local cmp_mappings = lsp.defaults.cmp_mappings({
     else
       fallback()
     end
-  end, { "i", "s" }),
+  end, { "i", "s" }),]]
+  --
 })
 
 lsp.set_preferences({
@@ -34,7 +35,16 @@ lsp.set_preferences({
 })
 
 lsp.setup_nvim_cmp({
+  completion = { autocomplete = false },
   mapping = cmp_mappings,
+  sources = {
+    -- Copilot Source
+    { name = "copilot", group_index = 2 },
+    -- Other Sources
+    { name = "nvim_lsp", group_index = 2 },
+    { name = "path", group_index = 2 },
+    { name = "luasnip", group_index = 2 },
+  },
 })
 
 lsp.on_attach(function(client, bufnr)
@@ -62,3 +72,7 @@ end
 
 lsp.nvim_workspace()
 lsp.setup()
+
+local cmp = require("cmp")
+cmp.event:on("menu_opened", function() vim.b.copilot_enabled = false end)
+cmp.event:on("menu_closed", function() vim.b.copilot_enabled = true end)

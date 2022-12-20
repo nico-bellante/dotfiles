@@ -33,7 +33,6 @@ use({
   config = function() require("user.plugins.null-ls") end,
 })
 
---[[
 use({
   "VonHeikemen/lsp-zero.nvim",
   requires = {
@@ -55,9 +54,30 @@ use({
     { "rafamadriz/friendly-snippets" },
   },
   config = function() require("user.plugins.lsp-zero") end,
-})]]
---
+})
+--[[
+use({
+  "zbirenbaum/copilot.lua",
+  event = "VimEnter",
+  config = function()
+    vim.defer_fn(
+      function()
+        require("copilot").setup({
+          suggestion = { keymap = { next = "<C-g>", accept = "<C-y>", dismiss = "<C-n>" } },
+        })
+      end,
+      100
+    )
+  end,
+})
 
+use({
+  "zbirenbaum/copilot-cmp",
+  after = { "copilot.lua" },
+  config = function() require("copilot_cmp").setup() end,
+})
+]]
+--
 use({
   "kyazdani42/nvim-tree.lua",
   requires = "kyazdani42/nvim-web-devicons",
@@ -115,6 +135,7 @@ use({
   "github/copilot.vim",
   config = function() require("user.plugins.copilot") end,
 })
+--
 
 -- extended editor functionality
 use({ "mhinz/vim-grepper", cmd = "GrepperRg" })
@@ -125,6 +146,9 @@ use({
   requires = { "kyazdani42/nvim-web-devicons", opt = true },
   config = function() require("lualine").setup({ options = { theme = "tokyonight" } }) end,
 })
+
+use("theprimeagen/harpoon")
+use("mbbill/undotree")
 
 -- Automatically install plugins on first run
 if packer_bootstrap then require("packer").sync() end
