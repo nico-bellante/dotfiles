@@ -17,6 +17,21 @@ local cmp_mappings = lsp.defaults.cmp_mappings({
   ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
   ["<C-y>"] = cmp.mapping.confirm({ select = true }),
   ["<C-Space>"] = cmp.mapping.complete({ reason = cmp.ContextReason.Auto }),
+  ["<Tab>"] = cmp.mapping(function(fallback)
+    if cmp.visible() then
+      cmp.select_next_item()
+    else
+      fallback()
+    end
+  end, { "i", "s" }),
+  ["<S-Tab>"] = cmp.mapping(function(fallback)
+    if cmp.visible() then
+      cmp.select_prev_item()
+    else
+      fallback()
+    end
+  end, { "i", "s" }),
+
   --[[["<Tab>"] = cmp.mapping(function(fallback)
     local copilot_keys = vim.fn["copilot#Accept"]()
     if cmp.visible() then
