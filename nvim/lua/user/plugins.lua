@@ -148,7 +148,7 @@ use({
 })
 
 use("theprimeagen/harpoon")
-use("mbbill/undotree")
+use({ "mbbill/undotree", config = function() vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle) end })
 
 -- Automatically install plugins on first run
 if packer_bootstrap then require("packer").sync() end
