@@ -45,16 +45,10 @@ local cmp_mappings = lsp.defaults.cmp_mappings({
   --
 })
 
-lsp.set_preferences({
-  sign_icons = {},
-})
-
 lsp.setup_nvim_cmp({
   completion = { autocomplete = false },
   mapping = cmp_mappings,
   sources = {
-    -- Copilot Source
-    { name = "copilot", group_index = 2 },
     -- Other Sources
     { name = "nvim_lsp", group_index = 2 },
     { name = "path", group_index = 2 },
@@ -81,7 +75,10 @@ local disable_formatting_for = { "tsserver", "eslint", "sumneko_lua" }
 
 for _, ls in ipairs(disable_formatting_for) do
   lsp.configure(ls, {
-    on_attach = function(client, bufnr) client.server_capabilities.document_formatting = false end,
+    on_attach = function(client, bufnr)
+      client.server_capabilities.document_formatting = false
+      client.server_capabilities.document_range_formatting = false
+    end,
   })
 end
 
