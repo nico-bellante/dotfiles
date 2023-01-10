@@ -65,3 +65,4 @@ vim.keymap.set("n", "<leader>nv", [[<cmd>lua require('telescope.builtin').find_f
 -- grepping
 vim.keymap.set("n", "\\f", [[<cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>]])
 vim.keymap.set("n", "<leader>g", [[<cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>]])
+vim.keymap.set("n", "<leader>gg", function() require("telescope.builtin").grep_string({ search = vim.fn.input("Grep > ") }) end)
