@@ -73,7 +73,7 @@ return {
     )
 
     -- edit nvim config stuff
-    vim.keymap.set("n", "<leader>nv", [[<cmd>lua require('telescope.builtin').find_files({ cwd = '~/.config/nvim/lua/user'})<CR>]])
+    vim.keymap.set("n", "<leader>nv", [[<cmd>lua require('telescope.builtin').find_files({ cwd = '~/.config/nvim'})<CR>]])
 
     -- grepping
     vim.keymap.set("n", "\\f", [[<cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>]])

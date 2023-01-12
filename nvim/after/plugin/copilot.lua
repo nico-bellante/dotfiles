@@ -1,6 +1,10 @@
 vim.g.copilot_no_tab_map = false
 vim.g.copilot_assume_mapped = true
 
+vim.g.copilot_filetypes = {
+  ["TelescopePrompt"] = false,
+}
+
 -- i don't think this works..
 vim.keymap.set("i", "<C-Space>", "<Plug>(copilot-dismiss)", { noremap = false })
 
